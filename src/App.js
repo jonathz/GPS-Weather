@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import NavBar from './components/NavBar';
+import WeatherMap from './components/WeatherMap';
 
 function App() {
+  
+  const [city,setCity]= useState({lat: "4.605575533040425", lng: "-74.10191003067288"})
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar setLocation={setCity}/>
+      <WeatherMap location={city}/>
     </div>
   );
 }
