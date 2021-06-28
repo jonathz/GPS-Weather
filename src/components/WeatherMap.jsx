@@ -7,28 +7,23 @@ import L from "leaflet";
 import petitionFetch from "../petitionFetch.js";
 
 const WeatherMap = ({ location }) => {
-  const [temp, setTemp] = useState('');
+  const [temp, setTemp] = useState(center:'',center:'',center:'',center:'',center:'',);
   useEffect(() => {
     petitionFetch(
       `https://corsproxybypass.herokuapp.com/https://api.darksky.net/forecast/88030114c5e47763a011a75e7a10c633/${location.lat}, ${location.lng}`
-    ).then((data) => setTemp([...temp,((data.currently.temperature-32)*5)/9]))
-    .then(()=>{
-      petitionFetch(
-        `https://corsproxybypass.herokuapp.com/https://api.darksky.net/forecast/88030114c5e47763a011a75e7a10c633/${parseFloat(location.lat) + 0.1}, ${location.lng}`
-      ).then((data) => setTemp([...temp,((data.currently.temperature-32)*5)/9]))
-      .then(()=>{console.log(temp)})
-    })
-    
-    
-      
+    ).then((data) => setTemp({center:((data.currently.temperature-32)*5)/9}));
+    petitionFetch(
+      `https://corsproxybypass.herokuapp.com/https://api.darksky.net/forecast/88030114c5e47763a011a75e7a10c633/${location.lat}, ${location.lng}`
+    ).then((data) => setTemp(...temp,{north:((data.currently.temperature-32)*5)/9}));
+      console.log(temp);
   }, [location]);
   var centre = L.divIcon({
     className: "leaflet-div-icon2",
-    html: `<span>${temp[0]}</span>`,
+    html: `<span>${temp.center?.toFixed(1)}°</span>`,
   });
   var north = L.divIcon({
     className: "leaflet-div-icon2",
-    html: `<span>${temp[1]}°</span>`,
+    html: `<span>${temp.north?.toFixed(1)}°</span>`,
   });
   var south = L.divIcon({
     className: "leaflet-div-icon2",
