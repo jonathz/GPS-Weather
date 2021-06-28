@@ -1,8 +1,9 @@
-
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import './App.css';
+import CityConditions from './components/CityConditions';
 import NavBar from './components/NavBar';
 import WeatherMap from './components/WeatherMap';
+
 
 function App() {
   
@@ -10,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <NavBar setLocation={setCity}/>
+      <CityConditions location={city} />
       <WeatherMap location={city}/>
     </div>
   );
