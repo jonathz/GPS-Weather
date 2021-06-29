@@ -6,6 +6,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import GpsFixed from "@material-ui/icons/GpsFixed";
 import InputBase from "@material-ui/core/InputBase";
 import petitionFetch from "../petitionFetch";
+import useGeoLocation from "../hooks/useGeoLocation";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,13 +17,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   typography: {
-     
-        align: "center"
-      },
+    align: "center",
+  },
   title: {
     flexGrow: 1,
     display: "none",
-     [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("sm")]: {
       display: "block",
     },
   },
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
- 
+
   inputRoot: {
     color: "inherit",
   },
@@ -70,7 +71,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = ({ setLocation }) => {
-  
+  const gpsLocate = useGeoLocation();
+  useEffect(() => {
+    if (localStorage.getItem("lastLocation")) {
+      let savedLocation = JSON.parse(localStorage.getItem("lastLocation"));
+      setLocation(savedLocation);
+    } else {
+      setLocation({
+        lat: 36.115778036660316,
+        lng: -115.17280731388223,
+      });
+    }
+  }, [setLocation]);
+
   const handleKeyPress = (event) => {
     petitionFetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=pk.eyJ1Ijoiam9uYXRoeiIsImEiOiJja3FkYmxqeTYxMThyMnBzN3IxZzV1NjY3In0.HpVGfj3JG4CfaxCzpYLn_g`
@@ -79,14 +92,28 @@ const NavBar = ({ setLocation }) => {
         lat: data.features[0].center[1],
         lng: data.features[0].center[0],
       });
+      localStorage.setItem(
+        "lastLocation",
+        JSON.stringify({
+          lat: data.features[0].center[1],
+          lng: data.features[0].center[0],
+        })
+      );
     });
   };
+  const handleGeolocate = () => {
+    setLocation({
+      lat: gpsLocate.coordinates.lat,
+      lng: gpsLocate.coordinates.lng,
+    });
+  };
+
   const classes = useStyles();
   return (
     <div>
       <AppBar>
         <Toolbar>
-        <GpsFixed />
+          <GpsFixed onClick={handleGeolocate} style={{ cursor: "pointer" }} />
           <div
             display="flex"
             className={classes.search}
@@ -109,11 +136,16 @@ const NavBar = ({ setLocation }) => {
               }}
             />
           </div>
-          <div style={{display:"flex",justifyContent:'center' , width:'100'}}>
-          <Typography variant="h6" noWrap style={{width:"80vw",textAlign:'center'}}>
-            Weather
-          </Typography>
-
+          <div
+            style={{ display: "flex", justifyContent: "center", width: "100" }}
+          >
+            <Typography
+              variant="h6"
+              noWrap
+              style={{ width: "80vw", textAlign: "center" }}
+            >
+              GPS Weather
+            </Typography>
           </div>
         </Toolbar>
       </AppBar>
