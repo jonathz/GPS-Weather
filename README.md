@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # GPS-Weather
 
 Take a look: https://jonathz.github.io/GPS-Weather/
