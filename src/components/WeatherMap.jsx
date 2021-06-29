@@ -29,12 +29,11 @@ const WeatherMap = ({ location }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={[location.lat, location.lng]} icon={centre}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
+          
         </Marker>
        
       </Map>
+      <br />
     </>
   );
 };

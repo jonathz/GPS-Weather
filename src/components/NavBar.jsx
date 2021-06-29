@@ -3,6 +3,7 @@ import { AppBar, Toolbar } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import GpsFixed from "@material-ui/icons/GpsFixed";
 import InputBase from "@material-ui/core/InputBase";
 import petitionFetch from "../petitionFetch";
 
@@ -13,14 +14,19 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  typography: {
+     
+        align: "center"
+      },
   title: {
     flexGrow: 1,
     display: "none",
-    [theme.breakpoints.up("sm")]: {
+     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
   },
   search: {
+    marginRight: theme.spacing(2),
     align: "justify",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -44,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+ 
   inputRoot: {
     color: "inherit",
   },
@@ -63,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = ({ setLocation }) => {
+  
   const handleKeyPress = (event) => {
     petitionFetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=pk.eyJ1Ijoiam9uYXRoeiIsImEiOiJja3FkYmxqeTYxMThyMnBzN3IxZzV1NjY3In0.HpVGfj3JG4CfaxCzpYLn_g`
@@ -78,9 +86,7 @@ const NavBar = ({ setLocation }) => {
     <div>
       <AppBar>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Weather
-          </Typography>
+        <GpsFixed />
           <div
             display="flex"
             className={classes.search}
@@ -102,6 +108,12 @@ const NavBar = ({ setLocation }) => {
                 }
               }}
             />
+          </div>
+          <div style={{display:"flex",justifyContent:'center' , width:'100'}}>
+          <Typography variant="h6" noWrap style={{width:"80vw",textAlign:'center'}}>
+            Weather
+          </Typography>
+
           </div>
         </Toolbar>
       </AppBar>
